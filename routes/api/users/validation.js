@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { httpCode } = require("../../../helpers/constants");
 
 const schemaCreateUser = Joi.object({
   email: Joi.string().email().required(),
@@ -28,4 +29,16 @@ module.exports.createUserValidation = (req, _res, next) => {
 
 module.exports.updateUserValidation = (req, _res, next) => {
   return validate(schemaUpdateUser, req.body, next);
+};
+
+module.exports.validateUploadAvatar = (req, res, next) => {
+  if (!req.file) {
+    return res.status(httpCode.BAD_REQUEST).json({
+      status: "error",
+      code: httpCode.BAD_REQUEST,
+      data: "Bad request",
+      message: "Field of avatar with file not found",
+    });
+  }
+  next();
 };
