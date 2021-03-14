@@ -1,11 +1,15 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-
+const path = require("path");
 const contactsRouter = require("./routes/api/contacts");
 const usersRouter = require("./routes/api/users");
 
 const app = express();
+require("dotenv").config();
+
+const AVATARS_OF_USERS = process.env.AVATARS_OF_USERS;
+app.use(express.static(path.join(__dirname, AVATARS_OF_USERS)));
 
 app.use(cors());
 app.use(morgan("combined"));
